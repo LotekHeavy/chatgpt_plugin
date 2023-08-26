@@ -1,0 +1,32 @@
+diff --git a/src/Controller/ChatGPTTranslateController.php b/src/Controller/ChatGPTTranslateController.php
+index 588f154..96607aa 100644
+--- a/src/Controller/ChatGPTTranslateController.php
++++ b/src/Controller/ChatGPTTranslateController.php
+@@ -194,7 +194,13 @@ class ChatGPTTranslateController extends ControllerBase {
+       $status = TRUE;
+ 
+       foreach ($bundleFields as $field_name => $val) {
+-        $node_translation->$field_name->value = $val['translation'];
++        if (array_key_exists('translation', $val)) {
++          $node_translation->$field_name->value = $val['translation'];
++        } else {
++          // Logging oder Fehlerbehandlung, falls der Schlüssel nicht existiert
++          // Zum Beispiel:
++          // \Drupal::logger('chatgpt_plugin')->warning('The key "translation" does not exist for field @field.', ['@field' => $field_name]);
++        }
+         $node_translation->$field_name->format = 'full_html';
+       }
+ 
+diff --git a/src/Form/ChatGPTTranslateForm.php b/src/Form/ChatGPTTranslateForm.php
+index 282f29c..343991f 100644
+--- a/src/Form/ChatGPTTranslateForm.php
++++ b/src/Form/ChatGPTTranslateForm.php
+@@ -92,7 +92,7 @@ class ChatGPTTranslateForm extends FormBase {
+         'node_id' => $node_id,
+       ])->toString();
+ 
+-      if (!$isDefault && !$node->hasTranslation($langcode)) {
++      if (!$isDefault && $node !== null && !$node->hasTranslation($langcode)) {
+         $additional = $row_title;
+       }
+       else {

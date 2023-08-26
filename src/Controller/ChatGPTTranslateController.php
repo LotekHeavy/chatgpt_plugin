@@ -194,7 +194,13 @@ class ChatGPTTranslateController extends ControllerBase {
       $status = TRUE;
 
       foreach ($bundleFields as $field_name => $val) {
-        $node_translation->$field_name->value = $val['translation'];
+        if (array_key_exists('translation', $val)) {
+          $node_translation->$field_name->value = $val['translation'];
+        } else {
+          // Logging oder Fehlerbehandlung, falls der Schlüssel nicht existiert
+          // Zum Beispiel:
+          // \Drupal::logger('chatgpt_plugin')->warning('The key "translation" does not exist for field @field.', ['@field' => $field_name]);
+        }
         $node_translation->$field_name->format = 'full_html';
       }
 

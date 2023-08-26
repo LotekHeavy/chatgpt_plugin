@@ -92,7 +92,7 @@ class ChatGPTTranslateForm extends FormBase {
         'node_id' => $node_id,
       ])->toString();
 
-      if (!$isDefault && !$node->hasTranslation($langcode)) {
+      if (!$isDefault && $node !== null && !$node->hasTranslation($langcode)) {
         $additional = $row_title;
       }
       else {
