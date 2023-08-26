@@ -111,6 +111,7 @@ class GPTApiService {
     $options = [
       'headers' => $header,
       'json' => $payload,
+      'timeout' => 300,
     ];
 
     // Calling ChatGPT completion API.
@@ -143,6 +144,7 @@ class GPTApiService {
     $validation_options = [
       'headers' => $header,
       'json' => $validation_payload,
+      'timeout' => 300,
     ];
 
     // Calling OpenAI Content Moderation API.
